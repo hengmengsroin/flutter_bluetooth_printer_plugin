@@ -77,6 +77,15 @@ class _BluetoothDeviceSelectorState extends State<BluetoothDeviceSelector> {
 
               final List<BluetoothDevice> devices =
                   data is DiscoveryResult ? data.devices : [];
+              devices.removeWhere((element) =>
+                  element.name == null ||
+                  element.name!.isEmpty ||
+                  element.name!.contains('unknown'));
+              if (devices.isEmpty) {
+                return const Center(
+                  child: Text('No devices found'),
+                );
+              }
               return ListView.builder(
                 itemCount: devices.length,
                 itemBuilder: (context, index) {
